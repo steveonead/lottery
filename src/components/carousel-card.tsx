@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react';
-
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { Bookmark } from 'lucide-react';
@@ -11,10 +9,19 @@ type Props = {
   label: string;
   showBookmark?: boolean;
   amount?: number;
+  imgClassName?: string;
   labelClassName?: string;
 };
 
-export default function CarouselCard({ imgSrc, imgAlt, label, showBookmark, amount, labelClassName }: Props) {
+export default function CarouselCard({
+  imgSrc,
+  imgAlt,
+  label,
+  showBookmark,
+  amount,
+  imgClassName,
+  labelClassName,
+}: Props) {
   return (
     <div className="relative flex w-full flex-col items-center overflow-hidden rounded-xl bg-gray-900/70">
       {showBookmark && (
@@ -26,7 +33,7 @@ export default function CarouselCard({ imgSrc, imgAlt, label, showBookmark, amou
         </div>
       )}
       <Avatar className={cn('mb-10 mt-14 aspect-[1] size-52', showBookmark && 'bg-white')}>
-        <AvatarImage src={imgSrc} className="object-contain" alt={imgAlt} />
+        <AvatarImage src={imgSrc} className={cn('object-contain', imgClassName)} alt={imgAlt} />
         <AvatarFallback>{imgAlt}</AvatarFallback>
       </Avatar>
       <div

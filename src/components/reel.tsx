@@ -1,4 +1,4 @@
-import type { Member } from '@/lib/member-list';
+import type { Employee } from '@/lib/employee-list';
 import type { ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
@@ -19,10 +19,10 @@ const TARGET_INDEX_ARR_MAP: Record<number, number[]> = {
 
 type Props = {
   className?: string;
-  memberList: Member[];
+  employeeList: Employee[];
   isSpinning: boolean;
   isMaskShow: boolean;
-  count: number;
+  pickedAmount: number;
   canReelsSpin: boolean;
   children: ReactNode;
   onSpinStart: () => void;
@@ -31,10 +31,10 @@ type Props = {
 
 export default function Reel({
   className,
-  memberList,
+  employeeList,
   isSpinning,
   isMaskShow,
-  count,
+  pickedAmount,
   canReelsSpin,
   children,
   onSpinStart,
@@ -42,13 +42,13 @@ export default function Reel({
 }: Props) {
   const [yPosition, setYPosition] = useState(0);
 
-  const indexArr = TARGET_INDEX_ARR_MAP[count] || [];
+  const indexArr = TARGET_INDEX_ARR_MAP[pickedAmount] || [];
   const indicatorHeight
-    = ITEM_HEIGHT * count + ITEM_GAP * (count - 1) + INDICATOR_BORDER_WIDTH * 2 + ITEM_GAP / 2;
+    = ITEM_HEIGHT * pickedAmount + ITEM_GAP * (pickedAmount - 1) + INDICATOR_BORDER_WIDTH * 2 + ITEM_GAP / 2;
 
   useEffect(() => {
     if (isSpinning) {
-      const totalItems = memberList.length;
+      const totalItems = employeeList.length;
       const totalHeight = totalItems * ITEM_HEIGHT;
       const minRotations = 2;
       const totalDistance = minRotations * totalHeight;
@@ -56,15 +56,15 @@ export default function Reel({
       animate(0, totalDistance, {
         duration: 3,
         onUpdate: (latest) => {
-          setYPosition(-latest % (memberList.length * ITEM_HEIGHT));
+          setYPosition(-latest % (employeeList.length * ITEM_HEIGHT));
         },
         onComplete: () => {
-          onCompleted(count);
+          onCompleted(pickedAmount);
         },
         ease: [0.2, 0.5, 0.8, 1.0],
       });
     }
-  }, [isSpinning, memberList, onCompleted, count]);
+  }, [isSpinning, employeeList, onCompleted, pickedAmount]);
 
   return (
     <div
@@ -89,9 +89,9 @@ export default function Reel({
           <div className="absolute inset-0 flex" style={{ padding: `${ITEM_GAP}px 0` }}>
             <motion.div style={{ y: yPosition }} className="flex-1">
               <div className="grid" style={{ rowGap: `${ITEM_GAP}px` }}>
-                {memberList.map((member, idx) => (
+                {employeeList.map((employee, idx) => (
                   <div
-                    key={`${member.department}-${member.name}`}
+                    key={`${employee.department}-${employee.name}`}
                     className={cn(
                       'mx-2 flex items-center justify-center rounded-xl',
                       indexArr.includes(idx) && !isSpinning ? 'bg-onead-orange' : 'bg-gray-700',
@@ -99,7 +99,7 @@ export default function Reel({
                     style={{ height: `${ITEM_HEIGHT}px` }}
                   >
                     <span className="truncate text-2xl font-medium text-white">
-                      {member.department}
+                      {employee.department}
                     </span>
                   </div>
                 ))}
@@ -107,16 +107,16 @@ export default function Reel({
             </motion.div>
             <motion.div style={{ y: yPosition }} className="flex-1">
               <div className="grid" style={{ rowGap: `${ITEM_GAP}px` }}>
-                {memberList.map((member, idx) => (
+                {employeeList.map((employee, idx) => (
                   <div
-                    key={`${member.department}-${member.name}`}
+                    key={`${employee.department}-${employee.name}`}
                     className={cn(
                       'mx-2 flex items-center justify-center rounded-xl',
                       indexArr.includes(idx) && !isSpinning ? 'bg-onead-orange' : 'bg-gray-700',
                     )}
                     style={{ height: `${ITEM_HEIGHT}px` }}
                   >
-                    <span className="truncate text-2xl font-medium text-white">{member.name}</span>
+                    <span className="truncate text-2xl font-medium text-white">{employee.name}</span>
                   </div>
                 ))}
               </div>

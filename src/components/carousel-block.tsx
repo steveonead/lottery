@@ -7,18 +7,11 @@ import { type ReactNode, useEffect, useState } from 'react';
 type Props = {
   className?: string;
   position: 'left' | 'right';
-  isPageButtonInvisible: boolean;
   children: ReactNode;
   onSelect: (idx: number) => void;
 };
 
-export default function CarouselBlock({
-  className,
-  position,
-  isPageButtonInvisible,
-  children,
-  onSelect,
-}: Props) {
+export default function CarouselBlock({ className, position, children, onSelect }: Props) {
   const [api, setApi] = useState<CarouselApi>();
 
   useEffect(() => {
@@ -26,12 +19,12 @@ export default function CarouselBlock({
       return;
     }
 
-    function onSlideInView(api: CarouselApi) {
+    function onSelectHandler(api: CarouselApi) {
       const idx = api?.selectedScrollSnap() || 0;
       onSelect(idx);
     }
 
-    api.on('slidesInView', onSlideInView);
+    api.on('select', onSelectHandler);
   }, [api, onSelect]);
 
   return (
@@ -50,18 +43,8 @@ export default function CarouselBlock({
       setApi={setApi}
     >
       <CarouselContent>{children}</CarouselContent>
-      <CarouselPrevious
-        className={cn(
-          'animate-shake-l pointer-events-none bottom-[40px] left-4 border-transparent bg-gray-900/70 text-white opacity-0 transition-opacity ease-in-out group-hover:pointer-events-auto group-hover:opacity-100',
-          isPageButtonInvisible && 'hidden',
-        )}
-      />
-      <CarouselNext
-        className={cn(
-          'animate-shake-r pointer-events-none bottom-[40px] right-4 border-transparent bg-gray-900/70 text-white opacity-0 transition-opacity ease-in-out group-hover:pointer-events-auto group-hover:opacity-100',
-          isPageButtonInvisible && 'hidden',
-        )}
-      />
+      <CarouselPrevious className="animate-shake-l pointer-events-none bottom-[40px] left-4 border-transparent bg-gray-900/70 text-white opacity-0 transition-opacity ease-in-out group-hover:pointer-events-auto group-hover:opacity-100" />
+      <CarouselNext className="animate-shake-r pointer-events-none bottom-[40px] right-4 border-transparent bg-gray-900/70 text-white opacity-0 transition-opacity ease-in-out group-hover:pointer-events-auto group-hover:opacity-100" />
     </Carousel>
   );
 }

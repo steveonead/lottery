@@ -1,9 +1,9 @@
-export type Member = {
+export type Employee = {
   department: string;
   name: string;
 };
 
-export const memberList: Member[] = [
+export const employeeList: Employee[] = [
   { department: 'ITO', name: '王小明' },
   { department: 'ITO', name: '李小華' },
   { department: 'ITO', name: '張小美' },
