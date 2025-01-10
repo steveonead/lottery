@@ -105,10 +105,10 @@
   @keyframes neon {
     0%,
     100% {
-      text-shadow: 0 0 20px #fff, 0 0 90px #fff, 0 0 20px #fff;
+      text-shadow: 0 0 20px #fff, 0 0 70px #fff, 0 0 20px #fff;
     }
     50% {
-      text-shadow: 0 0 50px #fff, 0 0 140px #fff, 0 0 50px #fff;
+      text-shadow: 0 0 50px #fff, 0 0 120px #fff, 0 0 50px #fff;
     }
   }
 
@@ -125,6 +125,6 @@
   }
 
   .animate-neon {
-    animation: neon 1.5s ease-in-out infinite alternate;
+    animation: neon 2.5s ease-in-out infinite alternate;
   }
 }

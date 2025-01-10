@@ -1,4 +1,4 @@
-import type { Employee } from '@/lib/employee-list';
+import type { Employee } from '@/models/employee';
 import type { ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
@@ -23,10 +23,10 @@ type Props = {
   isSpinning: boolean;
   isMaskShow: boolean;
   pickedAmount: number;
-  canReelsSpin: boolean;
+  noPrizeRemain: boolean;
   children: ReactNode;
   onSpinStart: () => void;
-  onCompleted: (count: number) => void;
+  onCompleted: (winner: Employee[]) => void;
 };
 
 export default function Reel({
@@ -35,7 +35,7 @@ export default function Reel({
   isSpinning,
   isMaskShow,
   pickedAmount,
-  canReelsSpin,
+  noPrizeRemain,
   children,
   onSpinStart,
   onCompleted,
@@ -59,7 +59,8 @@ export default function Reel({
           setYPosition(-latest % (employeeList.length * ITEM_HEIGHT));
         },
         onComplete: () => {
-          onCompleted(pickedAmount);
+          const res = TARGET_INDEX_ARR_MAP[pickedAmount].map((idx) => employeeList[idx]);
+          onCompleted(res);
         },
         ease: [0.2, 0.5, 0.8, 1.0],
       });
@@ -71,7 +72,7 @@ export default function Reel({
       className={cn(
         'flex w-full flex-col items-center',
         className,
-        !canReelsSpin && '!pointer-events-none',
+        noPrizeRemain && 'pointer-events-none',
       )}
     >
       <div className="relative w-full rounded-3xl bg-gray-900/70 p-4">
@@ -156,17 +157,24 @@ export default function Reel({
             !isMaskShow && 'opacity-0',
           )}
         >
-          <div className={cn(!canReelsSpin && 'cursor-pointer opacity-50')}>{children}</div>
-          <button
-            type="button"
-            onClick={onSpinStart}
-            className="animate-soft-bounce mt-20 flex flex-col items-center"
-          >
-            <img className="max-w-[200px]" src="/onead.png" alt="onead" />
-            <div className="mt-6 tracking-widest text-white">
-              {canReelsSpin ? '點擊抽獎' : '獎品已抽完'}
-            </div>
-          </button>
+          <div className={cn('flex flex-col items-center', noPrizeRemain ? 'hidden' : '')}>
+            <div>{children}</div>
+            <button
+              type="button"
+              onClick={onSpinStart}
+              className="animate-soft-bounce mt-20"
+            >
+              <img className="max-w-[200px]" src="/onead.png" alt="onead" />
+              <div className="mt-6 tracking-widest text-white">
+                點擊抽獎
+              </div>
+            </button>
+          </div>
+          <div className={cn('animate-soft-bounce text-white', noPrizeRemain ? '' : 'hidden')}>
+            <span>🎉</span>
+            <span className="mx-3">請選擇主持人</span>
+            <span>🎉</span>
+          </div>
         </div>
       </div>
     </div>

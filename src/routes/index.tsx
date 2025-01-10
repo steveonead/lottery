@@ -1,4 +1,4 @@
-import { getInitialData, isDBInitialized } from '@/models/db';
+import { isDBInitialized, queryInitialData } from '@/lib/db';
 import Main from '@/pages/main';
 import Upload from '@/pages/upload';
 import {
@@ -16,8 +16,7 @@ export const router = createBrowserRouter([
         return redirect('/upload');
       }
 
-      const res = await getInitialData();
-      console.log(res);
+      const res = await queryInitialData();
 
       return res;
     },
@@ -25,6 +24,15 @@ export const router = createBrowserRouter([
   },
   {
     path: '/upload',
+    loader: async () => {
+      const isInit = await isDBInitialized();
+
+      if (isInit) {
+        return redirect('/');
+      }
+
+      return null;
+    },
     element: <Upload />,
   },
 ]);
