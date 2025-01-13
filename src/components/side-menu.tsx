@@ -17,6 +17,13 @@ export default function SideMenu() {
     setIsPlaying(!isPlaying);
   }
 
+  function exportDialogHandler() {
+    if (location.pathname === '/upload') {
+      return;
+    }
+    setIsExportDialogShow(true);
+  }
+
   return (
     <aside className="absolute right-4 top-4 z-40 grid gap-6">
       <button type="button" onClick={togglePlayPause}>
@@ -28,7 +35,7 @@ export default function SideMenu() {
             <button
               type="button"
               className="transition-transform duration-150 hover:scale-110"
-              onClick={() => setIsExportDialogShow(true)}
+              onClick={exportDialogHandler}
             >
               <CloudDownload size={40} color="#ffffff" />
             </button>

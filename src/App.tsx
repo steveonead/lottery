@@ -7,7 +7,11 @@ export default function App() {
   return (
     <SnowBackground>
       <SideMenu />
-      <RouterProvider router={router} />
+      <RouterProvider
+        router={router} future={{
+          v7_startTransition: true,
+        }}
+      />
     </SnowBackground>
   );
 }
