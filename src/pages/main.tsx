@@ -11,7 +11,6 @@ import { shuffle } from '@/lib/shuffle';
 import { cn } from '@/lib/utils';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useState } from 'react';
-import Confetti from 'react-confetti-boom';
 import { useLoaderData } from 'react-router-dom';
 
 export default function Main() {
