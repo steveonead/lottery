@@ -54,7 +54,7 @@ export default function Reel({
       const totalDistance = minRotations * totalHeight;
 
       animate(0, totalDistance, {
-        duration: 2.5,
+        duration: 3,
         onUpdate: (latest) => {
           setYPosition(-latest % (employeeList.length * ITEM_HEIGHT));
         },

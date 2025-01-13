@@ -113,3 +113,20 @@ export async function completeThisRound({
       console.error(err.stack);
     });
 }
+
+export async function deleteWinner(winnerId: number, prizeName: string): Promise<void> {
+  db.transaction('rw', db.employeeList, db.prizeList, async () => {
+    await db.employeeList.update(winnerId, { prize: '' });
+
+    const targetPrize = await db.prizeList.where('item').equals(prizeName).first();
+    if (targetPrize) {
+      await db.prizeList.update(targetPrize.id, { amount: targetPrize.amount + 1 });
+    }
+  })
+    .then(() => {
+      console.log('delete complete');
+    })
+    .catch((err) => {
+      console.error(err.stack);
+    });
+}
