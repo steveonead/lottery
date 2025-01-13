@@ -35,6 +35,12 @@ async function queryFirstPrize(): Promise<Prize> {
   return prizeList[0];
 }
 
+export async function queryIfNoPrizeRemain() {
+  const firstPrize = await queryFirstPrize();
+
+  return firstPrize === undefined;
+}
+
 export async function queryInitialData(): Promise<{
   hostList: string[];
   initialHostCompoundName: string;
@@ -45,7 +51,7 @@ export async function queryInitialData(): Promise<{
 
   return {
     hostList,
-    initialHostCompoundName: firstPrize.hosts,
+    initialHostCompoundName: firstPrize?.hosts,
     initialPrize: firstPrize,
   };
 }

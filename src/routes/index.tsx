@@ -1,5 +1,6 @@
-import { isDBInitialized, queryInitialData } from '@/lib/db';
+import { isDBInitialized, queryIfNoPrizeRemain, queryInitialData } from '@/lib/db';
 import Main from '@/pages/main';
+import Success from '@/pages/success';
 import Upload from '@/pages/upload';
 import { createBrowserRouter, redirect } from 'react-router-dom';
 
@@ -9,9 +10,14 @@ export const router = createBrowserRouter(
       path: '/',
       loader: async () => {
         const isInit = await isDBInitialized();
+        const noPrizeRemain = await queryIfNoPrizeRemain();
 
         if (!isInit) {
           return redirect('/upload');
+        }
+
+        if (noPrizeRemain) {
+          return redirect('/success');
         }
 
         const res = await queryInitialData();
@@ -32,6 +38,19 @@ export const router = createBrowserRouter(
         return null;
       },
       element: <Upload />,
+    },
+    {
+      path: '/success',
+      loader: async () => {
+        const isInit = await isDBInitialized();
+
+        if (!isInit) {
+          return redirect('/upload');
+        }
+
+        return null;
+      },
+      element: <Success />,
     },
   ],
   {
