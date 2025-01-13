@@ -5,13 +5,13 @@ import CountSelector from '@/components/count-selector';
 import HostCarousel from '@/components/host-carousel';
 import PrizeCarousel from '@/components/prize-carousel';
 import Reel from '@/components/reel';
-import SnowBackground from '@/components/snow-background';
 import WinnerDialog from '@/components/winner-dialog';
 import { completeThisRound, queryAvailableEmployeeList, queryAvailablePrizeList } from '@/lib/db';
 import { shuffle } from '@/lib/shuffle';
 import { cn } from '@/lib/utils';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useState } from 'react';
+import Confetti from 'react-confetti-boom';
 import { useLoaderData } from 'react-router-dom';
 
 export default function Main() {
@@ -86,7 +86,7 @@ export default function Main() {
   }
 
   return (
-    <SnowBackground>
+    <>
       <div
         className={cn(
           'mx-auto flex h-screen w-full items-center justify-center gap-10 pr-6',
@@ -119,12 +119,11 @@ export default function Main() {
       </div>
       {isWinnerDialogShow && (
         <WinnerDialog
-          open={isWinnerDialogShow}
           winners={winners}
           targetPrize={targetPrize}
           onDismiss={onWinnerDialogDismiss}
         />
       )}
-    </SnowBackground>
+    </>
   );
 }

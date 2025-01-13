@@ -54,6 +54,10 @@ export async function queryAvailableEmployeeList(): Promise<Employee[]> {
   return db.employeeList.where('prize').equals('').toArray();
 }
 
+export async function queryAllEmployeeList(): Promise<Employee[]> {
+  return db.employeeList.toArray();
+}
+
 export function queryAvailablePrizeList(hostCompoundName: string): Promise<Prize[]> {
   return db.prizeList
     .where('hosts')
