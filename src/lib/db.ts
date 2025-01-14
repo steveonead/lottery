@@ -93,6 +93,12 @@ export async function completeThisRound({
       throw new Error('picked amount exceed prize amount');
     }
 
+    const winnerList = await db.employeeList.bulkGet(winnerIdArr);
+    if (winnerList.length !== winnerIdArr.length) {
+      alert('some winners not found');
+      throw new Error('some winners not found');
+    }
+
     await db.employeeList.bulkUpdate(
       winnerIdArr.map((id) => ({
         key: id,
