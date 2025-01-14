@@ -1,5 +1,5 @@
 export type Employee = {
-  id: number;
+  id: number | string;
   department: string;
   name: string;
   prize: string;

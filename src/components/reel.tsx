@@ -1,21 +1,10 @@
 import type { Employee } from '@/models/employee';
 import type { ReactNode } from 'react';
 
+import { CONTAINER_HEIGHT, INDICATOR_BORDER_WIDTH, ITEM_GAP, ITEM_HEIGHT, WINNER_INDEX_ARR_MAP } from '@/lib/reel';
 import { cn } from '@/lib/utils';
 import { animate, motion } from 'motion/react';
 import { useEffect, useState } from 'react';
-
-const ITEM_GAP = 12;
-const ITEM_HEIGHT = 50;
-const ITEM_IN_VIEW = 9;
-const CONTAINER_HEIGHT = ITEM_HEIGHT * ITEM_IN_VIEW + ITEM_GAP * (ITEM_IN_VIEW + 1);
-const INDICATOR_BORDER_WIDTH = 2;
-const TARGET_INDEX_ARR_MAP: Record<number, number[]> = {
-  1: [4],
-  3: [3, 4, 5],
-  5: [2, 3, 4, 5, 6],
-  7: [1, 2, 3, 4, 5, 6, 7],
-};
 
 type Props = {
   className?: string;
@@ -42,7 +31,7 @@ export default function Reel({
 }: Props) {
   const [yPosition, setYPosition] = useState(0);
 
-  const indexArr = TARGET_INDEX_ARR_MAP[pickedAmount] || [];
+  const indexArr = WINNER_INDEX_ARR_MAP[pickedAmount] || [];
   const indicatorHeight
     = ITEM_HEIGHT * pickedAmount + ITEM_GAP * (pickedAmount - 1) + INDICATOR_BORDER_WIDTH * 2 + ITEM_GAP / 2;
 
@@ -59,7 +48,7 @@ export default function Reel({
           setYPosition(-latest % (employeeList.length * ITEM_HEIGHT));
         },
         onComplete: () => {
-          const res = TARGET_INDEX_ARR_MAP[pickedAmount].map((idx) => employeeList[idx]);
+          const res = WINNER_INDEX_ARR_MAP[pickedAmount].map((idx) => employeeList[idx]);
           onCompleted(res);
         },
         ease: [0.2, 0.5, 0.8, 1.0],
@@ -92,7 +81,7 @@ export default function Reel({
               <div className="grid" style={{ rowGap: `${ITEM_GAP}px` }}>
                 {employeeList.map((employee, idx) => (
                   <div
-                    key={`${employee.department}-${employee.name}`}
+                    key={employee.id}
                     className={cn(
                       'mx-2 flex items-center justify-center rounded-xl',
                       indexArr.includes(idx) && !isSpinning ? 'bg-onead-orange' : 'bg-gray-700',
@@ -100,7 +89,7 @@ export default function Reel({
                     style={{ height: `${ITEM_HEIGHT}px` }}
                   >
                     <span className="truncate text-2xl font-medium text-white">
-                      {employee.department}
+                      {employee.department || '陪榜'}
                     </span>
                   </div>
                 ))}
@@ -110,14 +99,14 @@ export default function Reel({
               <div className="grid" style={{ rowGap: `${ITEM_GAP}px` }}>
                 {employeeList.map((employee, idx) => (
                   <div
-                    key={`${employee.department}-${employee.name}`}
+                    key={employee.id}
                     className={cn(
                       'mx-2 flex items-center justify-center rounded-xl',
                       indexArr.includes(idx) && !isSpinning ? 'bg-onead-orange' : 'bg-gray-700',
                     )}
                     style={{ height: `${ITEM_HEIGHT}px` }}
                   >
-                    <span className="truncate text-2xl font-medium text-white">{employee.name}</span>
+                    <span className="truncate text-2xl font-medium text-white">{employee.name || '陪榜'}</span>
                   </div>
                 ))}
               </div>

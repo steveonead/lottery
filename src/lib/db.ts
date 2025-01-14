@@ -57,7 +57,7 @@ export async function queryInitialData(): Promise<{
 }
 
 export async function queryAvailableEmployeeList(): Promise<Employee[]> {
-  return db.employeeList.where('prize').equals('').toArray();
+  return await db.employeeList.where('prize').equals('').toArray();
 }
 
 export async function queryAllEmployeeList(): Promise<Employee[]> {
@@ -78,7 +78,7 @@ export async function completeThisRound({
   pickedAmount,
 }: {
   prizeId: number;
-  winnerIdArr: number[];
+  winnerIdArr: (number | string)[];
   pickedAmount: number;
 }): Promise<void> {
   db.transaction('rw', db.employeeList, db.prizeList, async () => {
@@ -114,7 +114,7 @@ export async function completeThisRound({
     });
 }
 
-export async function deleteWinner(winnerId: number, prizeName: string): Promise<void> {
+export async function deleteWinner(winnerId: number | string, prizeName: string): Promise<void> {
   db.transaction('rw', db.employeeList, db.prizeList, async () => {
     await db.employeeList.update(winnerId, { prize: '' });
 

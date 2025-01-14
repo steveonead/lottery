@@ -43,7 +43,7 @@ export default function PrizeCarousel({ className, prizeList, onPrizeChange, noP
     <Carousel
       className={cn(
         'group relative w-full -translate-x-14 overflow-hidden rounded-xl',
-        noPrizeRemain ? 'no-prize' : '',
+        noPrizeRemain || prizeList.length <= 1 ? 'no-prize' : '',
         className,
       )}
       opts={{

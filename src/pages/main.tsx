@@ -7,6 +7,7 @@ import PrizeCarousel from '@/components/prize-carousel';
 import Reel from '@/components/reel';
 import WinnerDialog from '@/components/winner-dialog';
 import { completeThisRound, queryAvailableEmployeeList, queryAvailablePrizeList } from '@/lib/db';
+import { fillEmployeeList } from '@/lib/reel';
 import { shuffle } from '@/lib/shuffle';
 import { cn } from '@/lib/utils';
 import { useLiveQuery } from 'dexie-react-hooks';
@@ -31,13 +32,13 @@ export default function Main() {
   const availableEmployeeList = useLiveQuery<Employee[], Employee[]>(
     async () => {
       const list = await queryAvailableEmployeeList();
+      const shuffledList = shuffle(list);
 
-      return shuffle(list);
+      return fillEmployeeList(shuffledList, 40, pickedAmount);
     },
-    [],
+    [pickedAmount],
     [],
   );
-
   const availablePrizeList = useLiveQuery<Prize[], Prize[]>(
     () => queryAvailablePrizeList(currentHostCompoundName),
     [currentHostCompoundName],
