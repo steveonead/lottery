@@ -13,16 +13,17 @@ import {
 } from '@/components/ui/dialog';
 
 type Props = {
+  open: boolean;
   winners: Employee[];
   targetPrize?: Prize;
   onDismiss?: () => void;
 };
 
-export default function WinnerDialog({ winners, targetPrize, onDismiss }: Props) {
+export default function WinnerDialog({ open, winners, targetPrize, onDismiss }: Props) {
   const winnerNames = winners?.map(({ department, name }) => `${department} ${name}`).join('、') || '';
 
   return (
-    <Dialog defaultOpen>
+    <Dialog open={open}>
       <DialogContent className="confetti max-w-lg !rounded-2xl">
         <DialogHeader className="px-6">
           <DialogTitle className="flex justify-center text-center text-3xl font-bold">

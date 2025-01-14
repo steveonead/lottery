@@ -57,7 +57,7 @@ export async function queryInitialData(): Promise<{
 }
 
 export async function queryAvailableEmployeeList(): Promise<Employee[]> {
-  return await db.employeeList.where('prize').equals('').toArray();
+  return (await db.employeeList.where('prize').equals('').toArray());
 }
 
 export async function queryAllEmployeeList(): Promise<Employee[]> {

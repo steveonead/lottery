@@ -16,18 +16,18 @@ type PickedAmount = keyof typeof WINNER_INDEX_ARR_MAP;
 export function fillEmployeeList(employeeList: Employee[], targetLength: number, pickedAmount: PickedAmount) {
   if (employeeList.length >= targetLength) return employeeList;
 
-  if (employeeList.length >= ITEM_IN_VIEW) {
-    return Array.from(
-      { length: targetLength },
-      (_, idx) => employeeList[idx] || { id: crypto.randomUUID(), department: '', name: '', prize: '' },
-    );
-  }
-
   const winnerIdxArr = WINNER_INDEX_ARR_MAP[pickedAmount];
   const firstIdx = winnerIdxArr.at(0) || 4;
   const offsetRight = firstIdx;
 
-  const res: Employee[] = Array.from({ length: targetLength }, () => ({ id: crypto.randomUUID(), department: '', name: '', prize: '' }));
+  const res: Employee[] = Array.from({ length: targetLength }, (_, idx) => {
+    const employee = employeeList[idx % employeeList.length || 0];
+
+    return {
+      ...employee,
+      id: crypto.randomUUID(),
+    };
+  });
 
   employeeList.forEach((employee, idx) => {
     res[idx + offsetRight] = employee;

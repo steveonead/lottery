@@ -34,7 +34,7 @@ export default function Main() {
       const list = await queryAvailableEmployeeList();
       const shuffledList = shuffle(list);
 
-      return fillEmployeeList(shuffledList, 40, pickedAmount);
+      return fillEmployeeList(shuffledList, 60, pickedAmount);
     },
     [pickedAmount],
     [],
@@ -119,6 +119,7 @@ export default function Main() {
       </div>
       {isWinnerDialogShow && (
         <WinnerDialog
+          open={isWinnerDialogShow}
           winners={winners}
           targetPrize={targetPrize}
           onDismiss={onWinnerDialogDismiss}
