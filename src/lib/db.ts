@@ -95,6 +95,7 @@ export async function completeThisRound({
 
     const winnerList = await db.employeeList.bulkGet(winnerIdArr);
     if (winnerList.length !== winnerIdArr.length) {
+      // eslint-disable-next-line no-alert
       alert('some winners not found');
       throw new Error('some winners not found');
     }

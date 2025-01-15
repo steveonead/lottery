@@ -70,7 +70,7 @@ export default function Main() {
 
     setTimeout(() => {
       setIsWinnerDialogShow(true);
-    }, 800);
+    }, 1500);
   }
 
   async function onWinnerDialogDismiss() {

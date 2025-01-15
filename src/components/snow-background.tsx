@@ -5,7 +5,7 @@ moneyIcon.src = '/money-bill-wave.svg';
 
 export default function SnowBackground({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-onead bg-contain bg-center">
+    <div className="relative h-screen w-full overflow-hidden bg-onead bg-cover bg-center">
       <div className="absolute inset-0 bg-black/65"></div>
       <Snowfall
         radius={[25, 35]}
