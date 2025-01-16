@@ -40,7 +40,7 @@ export function ConfirmDialog({ onClick }: { onClick?: () => void }) {
       </AlertDialogTrigger>
       <AlertDialogContent className="!rounded-2xl">
         <AlertDialogHeader>
-          <AlertDialogTitle>確認要重置中獎資訊嗎？</AlertDialogTitle>
+          <AlertDialogTitle>確認要重設中獎資訊嗎？</AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogDescription>
           確認後中獎資訊將會刪除，並且無法復原。
@@ -59,7 +59,7 @@ export default function ExportDialog({ onOpenChange }: { onOpenChange: (open: bo
 
   return (
     <Dialog defaultOpen onOpenChange={onOpenChange}>
-      <DialogContent className="show-close max-w-3xl !rounded-2xl">
+      <DialogContent className="show-close max-w-4xl !rounded-2xl">
         <DialogHeader className="px-6">
           <DialogTitle className="flex justify-center text-center text-3xl font-bold">得獎名單</DialogTitle>
           <DialogDescription className="hidden" />
@@ -72,19 +72,19 @@ export default function ExportDialog({ onOpenChange }: { onOpenChange: (open: bo
                 <TableHead>部門</TableHead>
                 <TableHead>姓名</TableHead>
                 <TableHead>獎項</TableHead>
-                <TableHead></TableHead>
+                <TableHead />
               </TableRow>
             </TableHeader>
             <TableBody>
               {data.map((employee) => (
                 <TableRow key={employee.id}>
-                  <TableCell className="">{+employee.id - 1}</TableCell>
+                  <TableCell>{+employee.id - 1}</TableCell>
                   <TableCell>{employee.department}</TableCell>
                   <TableCell>{employee.name}</TableCell>
                   <TableCell className="!max-w-[250px] !truncate" title={employee.prize}>
                     {employee.prize}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="min-w-[60px]">
                     {employee.prize && <ConfirmDialog onClick={() => deleteWinner(employee.id, employee.prize)} />}
                   </TableCell>
                 </TableRow>

@@ -10,12 +10,11 @@ export const router = createBrowserRouter(
       path: '/',
       loader: async () => {
         const isInit = await isDBInitialized();
-        const noPrizeRemain = await queryIfNoPrizeRemain();
-
         if (!isInit) {
           return redirect('/upload');
         }
 
+        const noPrizeRemain = await queryIfNoPrizeRemain();
         if (noPrizeRemain) {
           return redirect('/success');
         }
@@ -43,9 +42,13 @@ export const router = createBrowserRouter(
       path: '/success',
       loader: async () => {
         const isInit = await isDBInitialized();
-
         if (!isInit) {
           return redirect('/upload');
+        }
+
+        const noPrizeRemain = await queryIfNoPrizeRemain();
+        if (!noPrizeRemain) {
+          return redirect('/');
         }
 
         return null;
